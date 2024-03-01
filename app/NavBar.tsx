@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { FaBug, FaCommentsDollar } from "react-icons/fa";
 import classnames from "classnames";
+import { getJsPageSizeInKb } from "next/dist/build/utils";
 
 const NavBar = () => {
   const currentPath = usePathname();
