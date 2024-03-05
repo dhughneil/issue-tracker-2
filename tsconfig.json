@@ -7,8 +7,9 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    // "module": "CommonJS", // I added this at the recommendation of ChatCGT because my imports were not resolving. It didn't resolve it, so I reinstalled prisma and it worked. Reverting this back to the original install, and it continues to work.
+    "module": "esnext", // In troubleshooting my imports I commented this and the 'moduleResolution' line and added the "CommonJS" line above
+    "moduleResolution": "bundler", // I commented this line because the IDE message said that it only works with esnext.
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
