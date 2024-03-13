@@ -17,14 +17,14 @@ const NewIssuePage = () => {
   };
 
   const onSubmit = (data: IssueForm) => {
-    console.log(data);
+    // console.log(data);
   };  
 
   return (
     <form
       className="max-w-xl space-y-3"
-    //   onSubmit={handleSubmit((data) => console.log(data))}
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit((data) => console.log(data))}
+      // onSubmit={handleSubmit(onSubmit)}
     >
       <TextField.Root>
         <TextField.Input placeholder="Title" {...register("title")} />
