@@ -1,10 +1,11 @@
 "use client";
-import { Button, TextField } from "@radix-ui/themes"; // I'm didn't
+import { Button, Callout, TextField } from "@radix-ui/themes"; // I'm didn't
 import SimpleMDE from "react-simplemde-editor";
 import { useForm, Controller } from "react-hook-form";
-import axios from 'axios';
+import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface IssueForm {
   title: string;
@@ -12,7 +13,7 @@ interface IssueForm {
 }
 
 const NewIssuePage = () => {
-  const router = useRouter(); 
+  const router = useRouter();
   const { register, control, handleSubmit, setValue } = useForm<IssueForm>();
 
   const handleDescriptionChange = (value: string) => {
@@ -21,21 +22,33 @@ const NewIssuePage = () => {
 
   const onSubmit = (data: IssueForm) => {
     // console.log(data);
-  };  
+  };
+
+  const [error, setError] = useState("");
 
   return (
-    <form
-      className="max-w-xl space-y-3"
-      onSubmit={handleSubmit(async (data) => {
-       await axios.post('/api/issues', data); 
-       router.push('/issues')
-      })}
-      // onSubmit={handleSubmit(onSubmit)}
-    >
-      <TextField.Root>
-        <TextField.Input placeholder="Title" {...register("title")} />
-      </TextField.Root>
-      {/* <Controller
+    <div className="max-w-xl ">
+      {error && (
+        <Callout.Root color="red" className="mb-5">
+          <Callout.Text>{error}</Callout.Text>
+        </Callout.Root>
+      )}
+      <form
+        className="space-y-3"
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            await axios.post("/api/issues", data);
+            router.push("/issues");
+          } catch (error) {
+            setError("An unexpected error occurred.");
+          }
+        })}
+        // onSubmit={handleSubmit(onSubmit)}
+      >
+        <TextField.Root>
+          <TextField.Input placeholder="Title" {...register("title")} />
+        </TextField.Root>
+        {/* <Controller
         name="description"
         control={control}
         render={(field) => (
@@ -43,13 +56,14 @@ const NewIssuePage = () => {
         )}
       /> */}
         <SimpleMDE
-        onChange={handleDescriptionChange}
-        options={{
-          placeholder: "Description...",
-        }}
-      />
-      <Button type="submit">Submit new issue</Button>
-    </form>
+          onChange={handleDescriptionChange}
+          options={{
+            placeholder: "Description...",
+          }}
+        />
+        <Button type="submit">Submit new issue</Button>
+      </form>
+    </div>
   );
 };
 
