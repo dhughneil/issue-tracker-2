@@ -36,9 +36,9 @@ const NewIssuePage = () => {
     setValue("description", value);
   };
 
-  const onSubmit = (data: IssueForm) => {
-    // console.log(data);
-  };
+  // const onSubmit = (data: IssueForm) => {
+  //   // console.log(data);
+  // };
 
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
@@ -52,16 +52,7 @@ const NewIssuePage = () => {
       )}
       <form
         className="space-y-3"
-        onSubmit={handleSubmit(async (data) => {
-          try {
-            setSubmitting(true);
-            await axios.post("/api/issues", data);
-            router.push("/issues");
-          } catch (error) {
-            setSubmitting(false);
-            setError("An unexpected error occurred.");
-          }
-        })}
+        
         // onSubmit={handleSubmit(onSubmit)}
       >
         <TextField.Root>
