@@ -36,9 +36,9 @@ const NewIssuePage = () => {
     setValue("description", value);
   };
 
-  // const onSubmit = (data: IssueForm) => {
-  //   // console.log(data);
-  // };
+  const onSubmit = (data: IssueForm) => {
+    // console.log(data);
+  };
 
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
@@ -53,6 +53,17 @@ const NewIssuePage = () => {
       <form
         className="space-y-3"
         
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            setSubmitting(true);
+            await axios.post("/api/issues", data);
+            router.push("/issues");
+          } catch (error) {
+            setSubmitting(false);
+            setError("An unexpected error occurred.");
+          }
+        })}
+
         // onSubmit={handleSubmit(onSubmit)}
       >
         <TextField.Root>
@@ -62,16 +73,18 @@ const NewIssuePage = () => {
         {/* <Controller
         name="description"
         control={control}
-        render={(field) => (
+        render={({field}) => (
           <SimpleMDE placeholder="Description..." {...field} />
         )}
       /> */}
+
         <SimpleMDE
           onChange={handleDescriptionChange}
           options={{
             placeholder: "Description...",
           }}
         />
+
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button disabled={isSubmitting} type="submit">
           Submit new issue {isSubmitting && <Spinner />}
